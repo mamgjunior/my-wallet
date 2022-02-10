@@ -6,18 +6,23 @@ import {
     Controllers
 } from "./styles";
 
-const Content: React.FC = () => {
+interface IContentHeader {
+    title: string;
+    lineColor: string;
+    children: React.ReactNode;
+}
+
+const ContentHeader: React.FC<IContentHeader> = ({ title, lineColor, children }) => {    
     return (
         <Container>
-            <TitleContainer>
-                <h3>Meu Titulo</h3>
+            <TitleContainer lineColor={lineColor}>
+                <h1>{ title }</h1>
             </TitleContainer>
             <Controllers>
-                <button type="button">Botão A</button>
-                <button type="button">Botão B</button>
+                { children }
             </Controllers>
         </Container>        
     );
 }
 
-export default Content;
+export default ContentHeader;
