@@ -9,6 +9,7 @@ import expenses from "../../repositories/expenses";
 
 import formatCurrency from "../../utils/formatCurrency";
 import formatDate from "../../utils/formatDate";
+import formatParametroData from "../../utils/formatParametroData";
 
 import { 
     Container, 
@@ -36,6 +37,9 @@ interface IData {
 const List: React.FC<IRouteParams> = ({ match }) => {
     const [data, setData] = useState<IData[]>([]);
 
+    const [monthSelected, setMonthSelected] = useState<string>(formatParametroData("mes"));
+    const [yearSelected, setYearSelected] = useState<string>(formatParametroData());
+
     const { type } = match.params;
     const title = useMemo(() => {
         return type === "entry-balance"? "Entradas": "Saídas";
@@ -50,9 +54,17 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     },[type]);
 
     useEffect(() => {
-        const response = listData.map(item => {
+        const filteredData = listData.filter(item => {
+            const date = new Date(item.date);
+            const year = String(date.getFullYear());
+            const month = String(date.getMonth() + 1);
+            
+            return month === monthSelected && year === yearSelected;
+        });
+
+        const formattedData = filteredData.map(item => {
             return {
-                id: String(Math.random() * data.length),
+                id: String(new Date().getTime()) + item.amount,
                 description: item.description,
                 amountFormatted: formatCurrency(Number(item.amount)),
                 frequency: item.frequency,
@@ -61,8 +73,8 @@ const List: React.FC<IRouteParams> = ({ match }) => {
             }
         });
 
-        setData(response);
-    },[]);
+        setData(formattedData);
+    },[listData, monthSelected, yearSelected]);
 
     const months = [
         {value: 1, label: "JANEIRO"}, 
@@ -94,8 +106,8 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     return (
         <Container>
             <ContentHeader title={title} lineColor={lineColor}>
-                <SelectInput options={months} />
-                <SelectInput options={years} />
+                <SelectInput options={months} onchange={e => setMonthSelected(e.target.value)} defaultValue={monthSelected} />
+                <SelectInput options={years} onchange={e => setYearSelected(e.target.value)} defaultValue={yearSelected} />
             </ContentHeader>
 
             <Filters>

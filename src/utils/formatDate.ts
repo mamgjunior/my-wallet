@@ -3,8 +3,8 @@ function adicionaZero(value: string): string {
 }
 
 const formatDate = (date: string): string => {
-    const dateFormatted = new Date(date);    
-    const day = (dateFormatted.getDay() + 1).toString();
+    const dateFormatted = new Date(date);
+    const day = (dateFormatted.getDate()).toString();
     const month = (dateFormatted.getMonth() + 1).toString();
     const year = dateFormatted.getFullYear();
 
