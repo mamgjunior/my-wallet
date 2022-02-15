@@ -1,5 +1,5 @@
 function adicionaZero(value: string): string {
-    return value.length == 1? "0" + value: value;
+    return value.length === 1? "0" + value: value;
 }
 
 const formatDate = (date: string): string => {
