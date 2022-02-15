@@ -10,6 +10,7 @@ import expenses from "../../repositories/expenses";
 import formatCurrency from "../../utils/formatCurrency";
 import formatDate from "../../utils/formatDate";
 import formatParametroData from "../../utils/formatParametroData";
+import listOfMonths from "../../utils/months";
 
 import { Container, Content,Filters } from "./styles";
 
@@ -72,20 +73,14 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         setData(formattedData);
     },[listData, monthSelected, yearSelected]);
 
-    const months = [
-        {value: 1, label: "JANEIRO"}, 
-        {value: 2, label: "FEVEREIRO"},
-        {value: 3, label: "MARÇO"},
-        {value: 4, label: "ABRIL"},
-        {value: 5, label: "MAIO"},
-        {value: 6, label: 'JUNHO'}, 
-        {value: 7, label: "JULHO"},
-        {value: 8, label: "AGOSTO"},
-        {value: 9, label: "SETEMBRO"},
-        {value: 10, label: "OUTUBRO"},
-        {value: 11, label: "NOVEMBRO"},
-        {value: 12, label: "DEZEMBRO"},
-    ]
+    const months = useMemo(() => {
+        return listOfMonths.map((month, index) => {
+            return {
+                value: index + 1,
+                label: month
+            }
+        });
+    }, []);
 
     const years = useMemo(() => {
         let uniqueYears: number[] = [];
