@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import ContentHeader from "../../components/ContentHeader";
 import SelectInput from "../../components/SelectInput";
@@ -10,6 +11,7 @@ import expenses from "../../repositories/expenses";
 import formatCurrency from "../../utils/formatCurrency";
 import formatDate from "../../utils/formatDate";
 import formatParametroData from "../../utils/formatParametroData";
+import listOfMonths from "../../utils/months";
 
 import { Container, Content,Filters } from "./styles";
 
@@ -60,7 +62,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
 
         const formattedData = filteredData.map(item => {
             return {
-                id: String(new Date().getTime()) + item.amount,
+                id: uuidv4(),
                 description: item.description,
                 amountFormatted: formatCurrency(Number(item.amount)),
                 frequency: item.frequency,
@@ -72,20 +74,14 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         setData(formattedData);
     },[listData, monthSelected, yearSelected]);
 
-    const months = [
-        {value: 1, label: "JANEIRO"}, 
-        {value: 2, label: "FEVEREIRO"},
-        {value: 3, label: "MARÇO"},
-        {value: 4, label: "ABRIL"},
-        {value: 5, label: "MAIO"},
-        {value: 6, label: 'JUNHO'}, 
-        {value: 7, label: "JULHO"},
-        {value: 8, label: "AGOSTO"},
-        {value: 9, label: "SETEMBRO"},
-        {value: 10, label: "OUTUBRO"},
-        {value: 11, label: "NOVEMBRO"},
-        {value: 12, label: "DEZEMBRO"},
-    ]
+    const months = useMemo(() => {
+        return listOfMonths.map((month, index) => {
+            return {
+                value: index + 1,
+                label: month
+            }
+        });
+    }, []);
 
     const years = useMemo(() => {
         let uniqueYears: number[] = [];
