@@ -37,6 +37,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
 
     const [monthSelected, setMonthSelected] = useState<string>(formatParametroData("mes"));
     const [yearSelected, setYearSelected] = useState<string>(formatParametroData());
+    const [selectedFrequency, setSelectedFrequency] = useState(["recorrente", "eventual"]);
 
     const { type } = match.params;
     const title = useMemo(() => {
@@ -51,13 +52,23 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         return type === "entry-balance"? gains: expenses;
     },[type]);
 
+    const handleFrequencyClick = (frequency: string) => {
+        const alreadySelected = selectedFrequency.findIndex(item => item === frequency);
+        if(alreadySelected >= 0) {
+            const filtered = selectedFrequency.filter(item => item !== frequency);
+            setSelectedFrequency(filtered);
+        } else {
+            setSelectedFrequency((prev) => [... prev, frequency]);
+        }
+    };
+
     useEffect(() => {
         const filteredData = listData.filter(item => {
             const date = new Date(item.date);
             const year = String(date.getFullYear());
             const month = String(date.getMonth() + 1);
             
-            return month === monthSelected && year === yearSelected;
+            return month === monthSelected && year === yearSelected && selectedFrequency.includes(item.frequency);
         });
 
         const formattedData = filteredData.map(item => {
@@ -72,7 +83,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         });
 
         setData(formattedData);
-    },[listData, monthSelected, yearSelected]);
+    },[listData, monthSelected, yearSelected, selectedFrequency]);
 
     const months = useMemo(() => {
         return listOfMonths.map((month, index) => {
@@ -97,7 +108,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
             }
         });
 
-    }, []);
+    }, [listData]);
 
     return (
         <Container>
@@ -107,8 +118,22 @@ const List: React.FC<IRouteParams> = ({ match }) => {
             </ContentHeader>
 
             <Filters>
-                <button type="button" className="tag-filter tag-filter-recurrent">Recorrentes</button>
-                <button type="button" className="tag-filter tag-filter-eventual">Eventuais</button>
+                <button 
+                    type="button" 
+                    className={`tag-filter tag-filter-recurrent
+                    ${selectedFrequency.includes("recorrente") && 'tag-actived'}`}
+                    onClick={() => handleFrequencyClick("recorrente")}
+                >
+                    Recorrentes
+                </button>
+                <button 
+                    type="button" 
+                    className={`tag-filter tag-filter-eventual
+                    ${selectedFrequency.includes("eventual") && 'tag-actived'}`}
+                    onClick={() => handleFrequencyClick("eventual")}
+                >
+                    Eventuais
+                </button>
             </Filters>
 
             <Content>
