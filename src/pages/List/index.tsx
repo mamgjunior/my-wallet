@@ -11,11 +11,7 @@ import formatCurrency from "../../utils/formatCurrency";
 import formatDate from "../../utils/formatDate";
 import formatParametroData from "../../utils/formatParametroData";
 
-import { 
-    Container, 
-    Content,
-    Filters
-} from "./styles";
+import { Container, Content,Filters } from "./styles";
 
 interface IRouteParams {
     match: {
@@ -91,17 +87,21 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         {value: 12, label: "DEZEMBRO"},
     ]
 
-    const years = [
-        {value: 2022, label: "2022"}, 
-        {value: 2021, label: "2021"},
-        {value: 2020, label: "2020"},
-        {value: 2019, label: "2019"},
-        {value: 2018, label: "2018"},
-        {value: 2017, label: '2017'}, 
-        {value: 2016, label: "2016"},
-        {value: 2015, label: "2015"},
-        {value: 2014, label: "2014"},
-    ]
+    const years = useMemo(() => {
+        let uniqueYears: number[] = [];
+        listData.forEach(item => {
+            const year = new Date(item.date).getFullYear();
+            if(!uniqueYears.includes(year)) uniqueYears.push(year)
+        });
+
+        return uniqueYears.map(item => {
+            return {
+                value: item,
+                label: item
+            }
+        });
+
+    }, []);
 
     return (
         <Container>
