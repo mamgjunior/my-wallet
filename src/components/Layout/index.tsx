@@ -6,13 +6,19 @@ import Content from "../Content";
 
 import { Grid } from "./styles";
 
+interface IProps{
+    children: React.ReactNode;
+}
 
-const Layout: React.FC = () => {
+
+const Layout: React.FC<IProps> = ({ children }) => {
     return (
         <Grid>
             <MainHeader />
             <Aside />
-            <Content />
+            <Content >
+                { children }
+            </Content>
         </Grid>
     );
 }

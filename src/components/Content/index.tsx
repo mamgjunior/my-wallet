@@ -2,11 +2,15 @@ import React from "react";
 
 import { Container } from "./styles";
 
+interface IProps{
+    children: React.ReactNode;
+}
 
-const Content: React.FC = () => {
+
+const Content: React.FC<IProps> = ({ children }) => {
     return (
         <Container>
-            <h1>Content</h1>
+            { children }
         </Container>
     );
 }
