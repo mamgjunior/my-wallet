@@ -1,4 +1,3 @@
-import { type } from "os";
 import React, { useMemo } from "react";
 
 import emojis from "../../utils/emojis";
