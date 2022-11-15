@@ -2,8 +2,9 @@ import React from "react";
 
 import ContentHeader from "../../components/ContentHeader/indext";
 import SelectInput from "../../components/SelectInput";
+import HistoryFinanceCard from "../../components/HistoryFinanceCard";
 
-import { Container } from "./styles";
+import { Container, Content } from "./styles";
 
 const List: React.FC = () => {
     const options = [
@@ -18,10 +19,19 @@ const List: React.FC = () => {
         <Container>
             <ContentHeader
                 title="Saídas"
-                lineColor="#F7931B"
+                lineColor="#E44C4E"
             >
                 <SelectInput options={ options } />
             </ContentHeader>
+
+            <Content>
+                <HistoryFinanceCard 
+                    tagColor="#E44C4E"
+                    title="Conta de Luz"
+                    subtitle="14/11/2022"
+                    amount="R$ 125,00"
+                />
+            </Content>
         </Container>
     );
 }
