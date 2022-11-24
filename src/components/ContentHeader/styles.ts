@@ -24,4 +24,7 @@ export const TitleContainer = styled.div<ITitleContainer>`
     }
 `;
 
-export const Controllers = styled.div``;
+export const Controllers = styled.div`
+    display: flex;
+    gap: .5rem;
+`;
