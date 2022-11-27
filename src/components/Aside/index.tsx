@@ -1,6 +1,7 @@
 import React from "react";
 import logoImg from "../../assets/logo.svg";
-import { 
+
+import {
     Container,
     Header,
     LogImg,
@@ -8,6 +9,7 @@ import {
     MenuContainer,
     MenuItemLink,
 } from "./styles";
+
 import {
     MdDashboard,
     MdArrowDownward,
@@ -20,22 +22,22 @@ const Aside: React.FC = () => {
     return (
         <Container>
             <Header>
-                <LogImg src={ logoImg } alt="Logo Minha Carteira" />
+                <LogImg src={logoImg} alt="Logo Minha Carteira" />
                 <Title>Minha Carteira</Title>
             </Header>
 
             <MenuContainer>
-                <MenuItemLink href="#">
+                <MenuItemLink href="/dashboard">
                     <MdDashboard />
                     Dashboard
                 </MenuItemLink>
 
-                <MenuItemLink href="#">
+                <MenuItemLink href="/list/entry-balance">
                     <MdArrowUpward />
                     Entradas
                 </MenuItemLink>
 
-                <MenuItemLink href="#">
+                <MenuItemLink href="/list/exit-balance">
                     <MdArrowDownward />
                     Saidas
                 </MenuItemLink>

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
+
+import { useParams } from "react-router-dom";
 
 import ContentHeader from "../../components/ContentHeader/indext";
 import SelectInput from "../../components/SelectInput";
@@ -7,6 +9,18 @@ import HistoryFinanceCard from "../../components/HistoryFinanceCard";
 import { Container, Content, Filters } from "./styles";
 
 const List: React.FC = () => {
+    const { type } = useParams();
+
+    const config = useMemo(() => {
+        return type === 'entry-balance' ? {
+            title: 'Entradas',
+            lineColor: '#F7931B'
+        } : {
+            title: 'Saídas',
+            lineColor: '#E44C4E'
+        };
+    }, [type]);
+
     const months = [
         { value: 1,  label: 'Janeiro' },
         { value: 2,  label: 'Fevereiro' },
@@ -32,8 +46,8 @@ const List: React.FC = () => {
     return (
         <Container>
             <ContentHeader
-                title="Saídas"
-                lineColor="#E44C4E"
+                title={config.title}
+                lineColor={config.lineColor}
             >
                 <SelectInput options={ months } />
                 <SelectInput options={ years } />
