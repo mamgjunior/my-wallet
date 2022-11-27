@@ -11,7 +11,8 @@ import { Container, Content, Filters } from "./styles";
 import gains from "../../repositories/gains";
 import expenses from "../../repositories/expenses";
 
-import { generateUniqueIdentifier } from "../../utils/funcoes";
+import formatCurrency from "../../utils/formatCurrency";
+import formatDate from "../../utils/formatDate";
 
 interface IData {
     id: string;
@@ -41,20 +42,6 @@ const List: React.FC = () => {
 
     const [data, setData] = useState<IData[]>([]);
 
-    useEffect(() => {
-        const response = listData.map(item => {
-            return {
-                id: String(generateUniqueIdentifier(data.length)),
-                description: item.description,
-                amountFormatted: item.amount,
-                frequency: item.frequency,
-                dataFormatted: item.date,
-                tagColor: item.frequency === 'recorrente' ? '#4E41F0' : '#E44C4E',
-            }
-        });
-        setData(response);
-    }, []);
-
     const months = [
         { value: 1, label: 'Janeiro' },
         { value: 2, label: 'Fevereiro' },
@@ -77,14 +64,46 @@ const List: React.FC = () => {
         { value: 2020, label: '2020' },
     ];
 
+    const [monthSelected, setMonthSelected] = useState<string>(String(new Date().getMonth() + 1));
+    const [yearSelected, setYearSelected] = useState<string>(String(new Date().getFullYear()));
+
+    useEffect(() => {
+        const filteredData = listData.filter(item => {
+            const date = new Date(item.date);
+            const month = String(date.getMonth() + 1);
+            const year = String(date.getFullYear());
+            return month === monthSelected && year === yearSelected;
+        });
+
+        const response = filteredData.map(item => {
+            return {
+                id: String(new Date().getTime()) + item.amount,
+                description: item.description,
+                amountFormatted: formatCurrency(Number(item.amount)),
+                frequency: item.frequency,
+                dataFormatted: formatDate(item.date),
+                tagColor: item.frequency === 'recorrente' ? '#4E41F0' : '#E44C4E',
+            }
+        });
+        setData(response);
+    }, [listData, monthSelected, yearSelected]);    
+
     return (
         <Container>
             <ContentHeader
                 title={config.title}
                 lineColor={config.lineColor}
             >
-                <SelectInput options={months} />
-                <SelectInput options={years} />
+                <SelectInput 
+                    options={months} 
+                    onChange={(e) => setMonthSelected(e.target.value)}
+                    defaultValue={monthSelected}
+                />
+                <SelectInput 
+                    options={years} 
+                    onChange={(e) => setYearSelected(e.target.value)}
+                    defaultValue={yearSelected}
+                />
             </ContentHeader>
 
             <Filters>

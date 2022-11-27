@@ -20,7 +20,10 @@ const Dashboard: React.FC = () => {
                 title="Dashboard"
                 lineColor="#fff"
             >
-                <SelectInput options={ options } />
+                <SelectInput 
+                    options={ options } 
+                    onChange={() => {}}
+                />
             </ContentHeader>
         </Container>
     );
