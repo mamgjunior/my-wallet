@@ -27,6 +27,11 @@ interface IData {
 const List: React.FC = () => {
     const { type } = useParams();
 
+    const [data, setData] = useState<IData[]>([]);
+    const [monthSelected, setMonthSelected] = useState<string>(String(new Date().getMonth() + 1));
+    const [yearSelected, setYearSelected] = useState<string>(String(new Date().getFullYear()));
+    const [selectedFrequency, setSelectedFrequency] = useState(['recorrente', 'eventual']);
+
     const config = useMemo(() => {
         return type === 'entry-balance' ? {
             title: 'Entradas',
@@ -40,8 +45,6 @@ const List: React.FC = () => {
     const listData = useMemo(() => {
         return type === 'entry-balance' ? gains : expenses;
     }, [type]);
-
-    const [data, setData] = useState<IData[]>([]);
 
     const months = useMemo(() => {
         return listOfMonths.map((month, index) => {
@@ -68,15 +71,23 @@ const List: React.FC = () => {
         });
     }, [listData]);
 
-    const [monthSelected, setMonthSelected] = useState<string>(String(new Date().getMonth() + 1));
-    const [yearSelected, setYearSelected] = useState<string>(String(new Date().getFullYear()));
+    const handleFrequencyClick = (frequency: string) => {
+        const alreadySelected = selectedFrequency.findIndex(item => item === frequency);
+
+        if (alreadySelected >= 0) {
+            const filtered = selectedFrequency.filter(item => item !== frequency);
+            setSelectedFrequency(filtered);
+        } else {
+            setSelectedFrequency((prev) => [...prev, frequency]);
+        }
+    }
 
     useEffect(() => {
         const filteredData = listData.filter(item => {
             const date = new Date(item.date);
             const month = String(date.getMonth() + 1);
             const year = String(date.getFullYear());
-            return month === monthSelected && year === yearSelected;
+            return month === monthSelected && year === yearSelected && selectedFrequency.includes(item.frequency);
         });
 
         const response = filteredData.map((item, index) => {
@@ -90,7 +101,7 @@ const List: React.FC = () => {
             }
         });
         setData(response);
-    }, [listData, monthSelected, yearSelected]);
+    }, [listData, monthSelected, yearSelected, selectedFrequency]);
 
     return (
         <Container>
@@ -113,14 +124,22 @@ const List: React.FC = () => {
             <Filters>
                 <button
                     type="button"
-                    className="tag-filter tag-filter-recurrent"
+                    className={`
+                        tag-filter tag-filter-recurrent
+                        ${selectedFrequency.includes('recorrente') && 'tag-actived'}    
+                    `}
+                    onClick={() => handleFrequencyClick('recorrente')}
                 >
                     Recorrentes
                 </button>
 
                 <button
                     type="button"
-                    className="tag-filter tag-filter-eventual"
+                    className={`
+                        tag-filter tag-filter-eventual
+                        ${selectedFrequency.includes('eventual') && 'tag-actived'}
+                    `}
+                    onClick={() => handleFrequencyClick('eventual')}
                 >
                     Eventuais
                 </button>
