@@ -13,6 +13,7 @@ import expenses from "../../repositories/expenses";
 
 import formatCurrency from "../../utils/formatCurrency";
 import formatDate from "../../utils/formatDate";
+import listOfMonths from "../../utils/months";
 
 interface IData {
     id: string;
@@ -42,27 +43,30 @@ const List: React.FC = () => {
 
     const [data, setData] = useState<IData[]>([]);
 
-    const months = [
-        { value: 1, label: 'Janeiro' },
-        { value: 2, label: 'Fevereiro' },
-        { value: 3, label: 'Março' },
-        { value: 4, label: 'Abril' },
-        { value: 5, label: 'Maio' },
-        { value: 6, label: 'Junho' },
-        { value: 7, label: 'Julho' },
-        { value: 8, label: 'Agosto' },
-        { value: 9, label: 'Setembro' },
-        { value: 10, label: 'Outubro' },
-        { value: 11, label: 'Novembro' },
-        { value: 12, label: 'Dezembro' },
-    ];
+    const months = useMemo(() => {
+        return listOfMonths.map((month, index) => {
+            return {
+                value: index + 1,
+                label: month,
+            }
+        });
+    }, []);
 
-    const years = [
-        { value: 2023, label: '2023' },
-        { value: 2022, label: '2022' },
-        { value: 2021, label: '2021' },
-        { value: 2020, label: '2020' },
-    ];
+    const years = useMemo(() => {
+        let uniqueYear: number[] = [];
+
+        listData.forEach(item => {
+            const year = new Date(item.date).getFullYear();
+            if (!uniqueYear.includes(year))
+                uniqueYear.push(year);
+        });
+
+        return uniqueYear.map(year => {
+            return {
+                value: year, label: year,
+            }
+        });
+    }, [listData]);
 
     const [monthSelected, setMonthSelected] = useState<string>(String(new Date().getMonth() + 1));
     const [yearSelected, setYearSelected] = useState<string>(String(new Date().getFullYear()));
@@ -75,9 +79,9 @@ const List: React.FC = () => {
             return month === monthSelected && year === yearSelected;
         });
 
-        const response = filteredData.map(item => {
+        const response = filteredData.map((item, index) => {
             return {
-                id: String(new Date().getTime()) + item.amount,
+                id: String(index),
                 description: item.description,
                 amountFormatted: formatCurrency(Number(item.amount)),
                 frequency: item.frequency,
@@ -86,7 +90,7 @@ const List: React.FC = () => {
             }
         });
         setData(response);
-    }, [listData, monthSelected, yearSelected]);    
+    }, [listData, monthSelected, yearSelected]);
 
     return (
         <Container>
@@ -94,13 +98,13 @@ const List: React.FC = () => {
                 title={config.title}
                 lineColor={config.lineColor}
             >
-                <SelectInput 
-                    options={months} 
+                <SelectInput
+                    options={months}
                     onChange={(e) => setMonthSelected(e.target.value)}
                     defaultValue={monthSelected}
                 />
-                <SelectInput 
-                    options={years} 
+                <SelectInput
+                    options={years}
                     onChange={(e) => setYearSelected(e.target.value)}
                     defaultValue={yearSelected}
                 />
