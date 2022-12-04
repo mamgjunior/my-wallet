@@ -111,6 +111,28 @@ const Dashboard: React.FC = () => {
         }
     }, [totalBalance]);
 
+    const relationExpensesVersusGains = useMemo(() => {
+        const PERCENTUAL = 100;
+        const total = totalGains + totalExpenses;
+        const percentGains = ((totalGains * PERCENTUAL) / total);
+        const percentExpenses = ((totalExpenses * PERCENTUAL) / total);
+
+        return [
+            {
+                name: "Entradas",
+                value: totalGains,
+                percent: Number(percentGains.toFixed(1)),
+                color: "#F7931B"
+            },
+            {
+                name: "Saídas",
+                value: totalExpenses,
+                percent: Number(percentExpenses.toFixed(1)),
+                color: "#E44C4E"
+            }
+        ];
+    }, [totalExpenses, totalGains]);
+
     const handleMonthSelected = (month: string) => {
         try {
             const parseMonth = Number(month);
@@ -179,7 +201,9 @@ const Dashboard: React.FC = () => {
                     icon={message.icon}
                 />
 
-                <PieChartComponent />
+                <PieChartComponent
+                    data={relationExpensesVersusGains}
+                />
             </Content>
         </Container>
     );

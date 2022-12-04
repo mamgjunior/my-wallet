@@ -7,42 +7,62 @@ import {
     ResponsiveContainer
 } from "recharts";
 
-import { 
+import {
     Legend,
     SideLeft,
     SideRight,
-    Container,        
+    Container,
     LegendContainer
 } from "./styles";
 
-const PieChartComponent: React.FC = () => (
+interface IPieChartComponent {
+    data: {
+        name: string;
+        value: number;
+        percent: number;
+        color: string;
+    }[];
+}
+
+const PieChartComponent: React.FC<IPieChartComponent> = ({ data }) => (
     <Container>
         <SideLeft>
             <h2>Relação</h2>
             <LegendContainer>
-                <Legend
-                    color="#F7931B"
-                >
-                    <div>5%</div>
-                    <span>Entradas</span>
-                </Legend>
-                <Legend
-                    color="#E44C4E"
-                >
-                    <div>95%</div>
-                    <span>Saídas</span>
-                </Legend>
+                {
+                    data.map((item, index) => (
+                        <Legend
+                            key={index}
+                            color={item.color}
+                        >
+                            <div>{`${item.percent}%`}</div>
+                            <span>{item.name}</span>
+                        </Legend>
+                    ))
+                }
             </LegendContainer>
         </SideLeft>
 
-        {/* <SideRight>
+        <SideRight>
             <ResponsiveContainer>
                 <PieChart>
-                    <Pie />
+                    <Pie
+                        data={data}
+                        dataKey="percent"
+                    >
+                        {
+                            data.map((item, index) => (
+                                <Cell 
+                                    key={index}
+                                    fill={item.color}
+                                />
+                            ))
+                        }
+                    </Pie>
                 </PieChart>
             </ResponsiveContainer>
-        </SideRight> */}
-    </Container>
+        </SideRight>
+    </Container >
 );
 
 export default PieChartComponent;

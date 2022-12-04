@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface ILegend {
-    color : string;
+    color: string;
 }
 
 export const Container = styled.div`
@@ -52,11 +52,11 @@ export const Legend = styled.li<ILegend>`
 
     > div {
         background-color: ${props => props.color};
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         border-radius: 5px;
         font-size: 18px;
-        line-height: 40px;
+        line-height: 50px;
         text-align: center;
     }
 
@@ -65,4 +65,8 @@ export const Legend = styled.li<ILegend>`
     }
 `;
 
-export const SideRight = styled.main``;
+export const SideRight = styled.main`
+    display: flex;
+    flex: 1;
+    justify-content: center;
+`;
