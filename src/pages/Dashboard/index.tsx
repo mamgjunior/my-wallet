@@ -6,6 +6,7 @@ import ContentHeader from "../../components/ContentHeader/indext";
 import SelectInput from "../../components/SelectInput";
 import WalletBox from "../../components/WalletBox";
 import MessageBox from "../../components/MessageBox";
+import PieChartComponent from "../../components/PieChartComponent";
 
 import happyImg from "../../assets/happy.svg";
 import sadImg from "../../assets/sad.svg";
@@ -177,6 +178,8 @@ const Dashboard: React.FC = () => {
                     footerText={message.footerText}
                     icon={message.icon}
                 />
+
+                <PieChartComponent />
             </Content>
         </Container>
     );
