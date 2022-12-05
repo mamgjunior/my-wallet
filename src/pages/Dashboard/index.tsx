@@ -7,6 +7,7 @@ import SelectInput from "../../components/SelectInput";
 import WalletBox from "../../components/WalletBox";
 import MessageBox from "../../components/MessageBox";
 import PieChartComponent from "../../components/PieChartComponent";
+import HistoryChart from "../../components/HistoryChart";
 
 import happyImg from "../../assets/happy.svg";
 import sadImg from "../../assets/sad.svg";
@@ -133,6 +134,49 @@ const Dashboard: React.FC = () => {
         ];
     }, [totalExpenses, totalGains]);
 
+    const historyData = useMemo(() => {
+        return listOfMonths.map((_, month) => {
+            let amountEntry = 0;
+            gains.forEach(element => {
+                const date = new Date(element.date);
+                const gainMonth = date.getMonth();
+                const gainYear = date.getFullYear();
+                if (gainMonth === month && gainYear === yearSelected) {
+                    try {
+                        amountEntry += Number(element.amount);
+                    } catch {
+                        throw new Error("amountEntry is invalid.");
+                    }
+                }
+            });
+
+            let amountOutput = 0;
+            expenses.forEach(element => {
+                const date = new Date(element.date);
+                const gainMonth = date.getMonth();
+                const gainYear = date.getFullYear();
+                if (gainMonth === month && gainYear === yearSelected) {
+                    try {
+                        amountOutput += Number(element.amount);
+                    } catch {
+                        throw new Error("amountOutput is invalid.");
+                    }
+                }
+            });
+
+            return {
+                monthNumber: month,
+                month: listOfMonths[month].substring(0, 3),
+                amountEntry,
+                amountOutput
+            }
+        }).filter(item => {
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            return ((yearSelected === currentYear && item.monthNumber <= currentMonth) || (yearSelected < currentYear));
+        });
+    }, [yearSelected]);
+
     const handleMonthSelected = (month: string) => {
         try {
             const parseMonth = Number(month);
@@ -203,6 +247,12 @@ const Dashboard: React.FC = () => {
 
                 <PieChartComponent
                     data={relationExpensesVersusGains}
+                />
+
+                <HistoryChart
+                    data={historyData}
+                    lineColorAmountEntry="#F7931B"
+                    lineColorAmountOutput="#E44C4E"
                 />
             </Content>
         </Container>
