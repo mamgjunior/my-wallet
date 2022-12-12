@@ -21,5 +21,6 @@ export default [
   { "description": "Salário",     "amount": "1900.12", "type": "entrada", "frequency": "recorrente", "date": "2022-08-05" }, 
   { "description": "Salário",     "amount": "2000.12", "type": "entrada", "frequency": "recorrente", "date": "2022-09-25" }, 
   { "description": "Salário",     "amount": "2300.12", "type": "entrada", "frequency": "recorrente", "date": "2022-10-18" }, 
-  { "description": "Salário",     "amount": "2400.12", "type": "entrada", "frequency": "recorrente", "date": "2022-11-12" }, 
+  { "description": "Salário",     "amount": "2400.12", "type": "entrada", "frequency": "recorrente", "date": "2022-11-12" },
+  { "description": "Freela app",  "amount": "950.92",  "type": "entrada", "frequency": "eventual",   "date": "2022-12-13" }, 
   { "description": "Salário",     "amount": "2500.00", "type": "entrada", "frequency": "recorrente", "date": "2022-12-15" }]
