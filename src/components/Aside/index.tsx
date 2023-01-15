@@ -1,6 +1,8 @@
 import React from "react";
 import logoImg from "../../assets/logo.svg";
 
+import { useAuth } from "../../hooks/auth";
+
 import {
     Container,
     Header,
@@ -8,6 +10,7 @@ import {
     Title,
     MenuContainer,
     MenuItemLink,
+    MenuItemButton,
 } from "./styles";
 
 import {
@@ -19,6 +22,7 @@ import {
 
 
 const Aside: React.FC = () => {
+    const { signOut } = useAuth();
     return (
         <Container>
             <Header>
@@ -42,10 +46,10 @@ const Aside: React.FC = () => {
                     Saidas
                 </MenuItemLink>
 
-                <MenuItemLink href="#">
+                <MenuItemButton onClick={signOut}>
                     <MdExitToApp />
                     Sair
-                </MenuItemLink>
+                </MenuItemButton>
             </MenuContainer>
         </Container>
     );
