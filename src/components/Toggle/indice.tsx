@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import {
     Container,
@@ -6,19 +6,29 @@ import {
     ToggleSelector
 } from "./styles";
 
-const Toggle: React.FC = () => {
+interface IToggleProps {
+    labelLeft: string;
+    labelRight: string;
+    checked: boolean;
+    onChange(): void;
+}
 
-    const [mudou, setMudou ] = useState(true);
+const Toggle: React.FC<IToggleProps> = ({
+    labelLeft,
+    labelRight,
+    checked,
+    onChange,
+}) => {
     return (
         <Container>
-            <ToggleLabel>Light</ToggleLabel>
-            <ToggleSelector 
-                checked={ mudou }
-                checkedIcon={ false }
-                uncheckedIcon={ false }
-                onChange={() => setMudou(!mudou)}
+            <ToggleLabel>{labelLeft}</ToggleLabel>
+            <ToggleSelector
+                checked={checked}
+                checkedIcon={false}
+                uncheckedIcon={false}
+                onChange={onChange}
             />
-            <ToggleLabel>Dark</ToggleLabel>
+            <ToggleLabel>{labelRight}</ToggleLabel>
         </Container>
     );
 }
