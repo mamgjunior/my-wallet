@@ -1,6 +1,7 @@
 import React from "react";
 import logoImg from '../../assets/logo.svg';
 
+import Input from "../../components/Input";
 import { 
     Container, 
     Logo, 
@@ -17,9 +18,9 @@ const SignIn: React.FC = () => {
             </Logo>
             <Form>
                 <FormTitle>Entrar</FormTitle>
-                <input type="text"></input>
-                <input type="text"></input>
-                <button>Acessar</button>
+                <Input type="email" placeholder="E-Mail" required/>
+                <Input type="password" placeholder="Password" required/>
+                <button type="submit">Acessar</button>
             </Form>
         </Container>
     );
