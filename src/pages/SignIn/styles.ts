@@ -9,7 +9,7 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
 
-    background-color: ${props => props.theme.colors.primary};
+    background-color: ${props => props.theme.colors.primary};    
 `;
 
 export const Logo = styled.div`
@@ -34,9 +34,26 @@ export const Form = styled.form`
     padding: 30px;
     border-radius: 10px;
     background-color: ${props => props.theme.colors.tertiary};
+
+    > button {
+        width: 100%;
+        margin: 7px 0;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        
+        color: ${props => props.theme.colors.white};
+        background-color: ${props => props.theme.colors.warning};
+
+        transition: opacity .3s;
+        &:hover {
+            opacity: .7;
+        }
+    }
 `;
 
 export const FormTitle = styled.h1`
+    margin-bottom: 30px;
     color: ${props => props.theme.colors.white};
 
     &:after {
