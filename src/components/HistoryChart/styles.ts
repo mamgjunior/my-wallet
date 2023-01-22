@@ -22,12 +22,18 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.header`
+    width: 100%;
+
     display: flex;
     justify-content: space-between;
 
     > h2 {
         margin-bottom: 20px;
         padding-left: 16px;
+    }
+
+    @media(max-width: 1200px) {
+        flex-direction: column;
     }
 `;
 
@@ -42,7 +48,7 @@ export const Legend = styled.li<ILegendProps>`
     align-items: center;
 
     margin-bottom: 7px;
-    margin-left: 7px;
+    margin-left: 16px;
 
     > div {
         background-color: ${props => props.color};
@@ -56,5 +62,12 @@ export const Legend = styled.li<ILegendProps>`
 
     > span {
         margin-left: 5px;
+    }
+
+    @media(max-width: 1280px) {
+        > div {
+            width: 30px;
+            height: 30px;
+        }
     }
 `;
