@@ -33,7 +33,7 @@ const HistoryChart: React.FC<IHistoryChart> = ({
 }) => (
     <Container>
         <Header>
-            <h2>Histórico de saldo</h2>
+            <h2>Histórico de saldo anual</h2>
             <LegendContainer>
                 <Legend
                     color={lineColorAmountEntry}
