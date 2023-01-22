@@ -21,7 +21,7 @@ import listOfMonths from "../../utils/months";
 
 const Dashboard: React.FC = () => {
     const [monthSelected, setMonthSelected] = useState<number>(new Date().getMonth() + 1);
-    const [yearSelected, setYearSelected] = useState<number>(new Date().getFullYear());
+    const [yearSelected, setYearSelected] = useState<number>(new Date().getFullYear() - 1);
 
     const months = useMemo(() => {
         return listOfMonths.map((month, index) => {
