@@ -1,8 +1,22 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 interface ILegendProps {
     color: string;
 }
+
+const animate = keyframes`
+    0% {
+        transform: translate(-100px);
+        opacity: 0;
+    }
+    50% {
+        opacity: .3;
+    }
+    100% {
+        transform: translate(0px);
+        opacity: 1;
+    }
+`;
 
 export const Container = styled.div`
     width: 100%;
@@ -19,6 +33,8 @@ export const Container = styled.div`
     padding: 30px 20px;
 
     border-radius: 7px;    
+
+    animation: ${animate} .5s;
 `;
 
 export const Header = styled.header`
